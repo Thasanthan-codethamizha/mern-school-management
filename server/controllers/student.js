@@ -2,6 +2,7 @@ export const getStudents = async (req, res) => {
     try{
         const allStudents=await student.find();
         res.status(200).json(allStudents);
+        console.log('getStudents');
     }catch(e){
         res.status(404).json({message: e.message});
     }

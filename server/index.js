@@ -6,24 +6,28 @@ import studentRoutes from './routes/student.js';
 const app = express();
 
 app.use('/students',studentRoutes)
+
 app.use(bodyParser.json({limit: '20mb',extended: true}));
 app.use(bodyParser.urlencoded({limit: '20mb',extended: true}));
 
-
 app.use(cors());
-
-
-
 const CONNECTION_URL= "mongodb+srv://codethamizha:thasa2003@ctcluster0.za5wi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000
 
-mongoose.connect(CONNECTION_URL,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+const dbconnection = async () => {
+  try {
+    await mongoose.connect(CONNECTION_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("server connected");
+  } catch (error) {
+    console.log(error);
+  }
+};
+dbconnection()
 
-}).then(()=>app.listen(PORT,()=>{
-    console.log(`Connected to MongoDB , running on port : ${PORT}`);
-})).catch((err)=>{
-    console.log(err.message);
-})
+
+
+app.listen(PORT)
